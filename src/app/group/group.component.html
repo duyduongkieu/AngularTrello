@@ -1,18 +1,35 @@
 <div cdkDropList cdkDropListOrientation="horizontal" class="abc d-flex " (cdkDropListDropped)="drop($event)">
-  <div class="example-box " *ngFor="let gr of group" cdkDrag>
+  <div class="example-box d-flex flex-column " *ngFor="let gr of group" cdkDrag>
     {{ gr.name }}
-    <a href="google.com"
-      ><span class="placeholder text-white"> <i class="fa fa-plus"></i>Add list Item </span></a
-    >
-    <br />
     <div (click)="getId(gr.id)">
       <span class="placeholder text-white" data-toggle="modal" data-target="#exampleModal">
         <i class="far fa-edit"></i>
       </span>
     </div>
+    <!-- ... -->
+    <div (click)="onItem(gr.id)">
+      <p *ngIf="this.closeItem">
+        <span class="placeholder text-white"> <i class="fa fa-plus"></i>Add list Item </span>
+      </p>
+    </div>
+    <div *ngFor="let item of groupId">
+      <div *ngIf="this.clickItem && gr.id == item.id">
+        <!-- <h1>{{ item.name }}</h1> -->
+        <form action="" (submit)="onAddItem()" [formGroup]="formE">
+          <div class="form-group">
+            <input type="text" placeholder="Add item" formControlName="item" class="form-control" />
+          </div>
+          <div class="row">
+            <div class="col-md-4"><button class="btn btn-success">Add</button></div>
+            <div class="col-md-4" (click)="onClose()"><p class="close text-white">&times;</p></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br />
   </div>
 </div>
-
+<!-- ................................modal..... -->
 <div
   class="modal fade"
   id="exampleModal"
@@ -38,7 +55,6 @@
             </div>
             <div class="row">
               <div class="col-md-4"><button class="btn btn-success w-100" (click)="save()">Save</button></div>
-              <div class="col-md-4" (click)="onClose()"><p class="close text-white">&times;</p></div>
             </div>
           </div>
         </form>

@@ -4,7 +4,7 @@
   "scripts": {
     "start:server": "./node_modules/.bin/json-server --watch server/db.json",
     "ng": "ng",
-    "serve": "ng serve --port 2000 -o",
+    "serve": "ng serve --port 4500 -o",
     "start": "concurrently --kill-others \"npm run start:server\" \"npm run serve\"",
     "build": "ng build",
     "test": "ng test",

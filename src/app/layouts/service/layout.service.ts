@@ -40,8 +40,11 @@ export class LayoutService {
       group.id = uuid();
     }
     if (!group.item) {
-      group.item = {};
+      group.item = [];
     }
     return this.http.post(data, group);
+  }
+  addNewItem(group: Partial<Imodels>) {
+    return this.http.post(`${data}${group.id}`, group);
   }
 }

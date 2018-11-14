@@ -17,6 +17,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class GroupComponent implements OnInit {
   formE: FormGroup;
+  clickItem = false;
+  closeItem = true;
+  groupItem = [];
   // editName: any;
   // tslint:disable-next-line:member-ordering
   group: any = [];
@@ -30,7 +33,26 @@ export class GroupComponent implements OnInit {
   constructor(private layoutService: LayoutService, private fG: FormBuilder, private router: Router) {}
   getId(id: string) {
     this.layoutService.getDataId(id).subscribe(res => (this.groupId = [res]));
+    // this.clickItem = !this.clickItem;
   }
+  onItem(id: string) {
+    this.layoutService.getDataId(id).subscribe(res => (this.groupId = [res]));
+    this.clickItem = !this.clickItem;
+    this.closeItem = !this.closeItem;
+    console.log(this.groupId);
+  }
+  onAddItem() {
+    if (this.formE.valid && this.groupId.id === this.group.id) {
+      console.log(this.formE.value);
+      this.layoutService.addNewData(this.formE.value).subscribe(res => this.group.item.push(res));
+    }
+    console.log(this.formE.value);
+  }
+  onClose() {
+    this.closeItem = !this.closeItem;
+    this.clickItem = !this.clickItem;
+  }
+  // .......................
   edit(group) {
     this.editGroup = group;
   }
@@ -62,12 +84,17 @@ export class GroupComponent implements OnInit {
     console.log('ok');
   }
   ngOnInit() {
+    this.formE = this.fG.group({
+      name: ['', [Validators.required]],
+      item: ['', [Validators.required]],
+    });
     // this.getGroup();
     this.layoutService.getData().subscribe(res => (this.group = res));
     console.log('group: ', this.group);
     // ...
     this.formE = this.fG.group({
       name: ['', [Validators.required]],
+      item: ['', [Validators.required]],
     });
   }
 }
